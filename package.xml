@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package format="2">
+
+  <name>earth_rover_firmware</name>
+  <version>0.0.0</version>
+  <description>Teensy 3.2 firmware for the earth rover</description>
+
+  <license>MIT</license>
+
+  <maintainer email="maarten@vijfendertig.be">Maarten De Munck</maintainer>
+  <author email="maarten@vijfendertig.be">Maarten De Munck</author>
+
+  <url type="repository">https://github.com/Vijfendertig/earth_rover_firmware</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <depend>geometry_msgs</depend>
+  <depend>roscpp</depend>
+  <depend>rosserial_arduino</depend>
+  <depend>rosserial_client</depend>
+  <depend>ros_teensy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+
+</package>
