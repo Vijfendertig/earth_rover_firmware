@@ -10,6 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  message_generation
   geometry_msgs
   roscpp
   rosserial_arduino
@@ -53,11 +54,10 @@ find_package(Boost REQUIRED COMPONENTS program_options)
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES Bno055CalibrationStatus.msg
+        Bno055Measurements.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -77,7 +77,7 @@ find_package(Boost REQUIRED COMPONENTS program_options)
 generate_messages(
   DEPENDENCIES geometry_msgs
                sensor_msgs
-	       std_msgs
+               std_msgs
 )
 
 ################################################
@@ -114,11 +114,11 @@ catkin_package(
 #  LIBRARIES earth_rover_firmware
   CATKIN_DEPENDS geometry_msgs
                  roscpp
-		 rosserial_arduino
-		 rosserial_client
-		 ros_teensy
-		 sensor_msgs
-		 std_msgs
+                 rosserial_arduino
+                 rosserial_client
+                 ros_teensy
+                 sensor_msgs
+                 std_msgs
 #  DEPENDS system_lib
 )
 
@@ -132,6 +132,19 @@ include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
+)
+
+add_executable(imu_publisher_node
+  src/imu_publisher/imu_publisher_node.cpp
+  src/imu_publisher/imu_publisher.cpp)
+
+target_link_libraries(imu_publisher_node
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+)
+
+add_dependencies(imu_publisher_node
+  earth_rover_firmware_gencpp
 )
 
 ## Declare a C++ library

@@ -12,6 +12,9 @@ FILE(GLOB_RECURSE ros_src
   "${ROS_LIB_DIR}/*.h")
 add_library(ros_lib ${ros_src})
 
+import_arduino_library(EEPROM)  # Use Arduino EEPROM library.
+import_arduino_library(i2c_t3)  # Use Teensy 3.x I2C library.
+
 add_teensy_executable(earth_rover_firmware_teensy32 main.cpp)
 target_link_libraries(earth_rover_firmware_teensy32 ros_lib)
 
