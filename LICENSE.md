@@ -1,7 +1,7 @@
 The MIT License (MIT)
 =====================
 
-Copyright © 2018 Maarten De Munck
+Copyright © 2018-2019 Maarten De Munck
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
