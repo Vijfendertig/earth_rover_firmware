@@ -15,10 +15,10 @@
 
 #include <ros.h>
 #include <nmea_msgs/Sentence.h>
+#include <std_msgs/Bool.h>
 
 
 namespace earth_rover_firmware {
-
 
   template <typename SerialDevice>
   class RosserialNmeaSentenceForwarder {
@@ -30,6 +30,7 @@ namespace earth_rover_firmware {
       char buffer_[128];
       unsigned buffer_next_index_;
       ros::NodeHandle * node_handle_;
+      ros::Subscriber<std_msgs::Bool, RosserialNmeaSentenceForwarder> enable_subscriber_;
       ros::Publisher nmea_sentence_publisher_;
       nmea_msgs::Sentence nmea_sentence_message_;
       bool enable_forwarding_;
@@ -38,9 +39,11 @@ namespace earth_rover_firmware {
           unsigned serial_baudrate, int serial_rx_pin = -1, int serial_tx_pin = -1);
       ~RosserialNmeaSentenceForwarder() = default;
       void setup();
-      void enable() {enable_forwarding_ = true; };
-      void disable() {enable_forwarding_ = false; };
+      void enable() { enable_forwarding_ = true; };
+      void disable() { enable_forwarding_ = false; };
       void spinOnce();
+    private:
+      void enableCallback(const std_msgs::Bool & message);
   };
 
 
@@ -53,8 +56,9 @@ namespace earth_rover_firmware {
     serial_tx_pin_{serial_tx_pin},
     buffer_next_index_{0},
     node_handle_{node_handle},
-    nmea_sentence_publisher_{"gps/nmea_sentence", &nmea_sentence_message_},
-    enable_forwarding_{true}
+    enable_subscriber_{"mtk3339/enable", &RosserialNmeaSentenceForwarder::enableCallback, this},
+    nmea_sentence_publisher_{"mtk3339/nmea_sentence", &nmea_sentence_message_},
+    enable_forwarding_{false}
   {
     ;
   }
@@ -72,7 +76,8 @@ namespace earth_rover_firmware {
     serial_device_->begin(serial_baudrate_, SERIAL_8N1);
     // Initialise ROS publisher.
     node_handle_->advertise(nmea_sentence_publisher_);
-    nmea_sentence_message_.header.frame_id = "earth_rover_gps";
+    nmea_sentence_message_.header.frame_id = "mtk3339_link";
+    node_handle_->subscribe(enable_subscriber_);
   }
 
 
@@ -88,17 +93,32 @@ namespace earth_rover_firmware {
       // If we received a \r\n line terminator, send the message.
       if(buffer_[buffer_next_index_ - 2] == '\r' && buffer_[buffer_next_index_ - 1] == '\n') {
         buffer_[buffer_next_index_ - 2] = '\0';
-        nmea_sentence_message_.sentence = buffer_;
-        nmea_sentence_publisher_.publish(&nmea_sentence_message_);
+        if(enable_forwarding_) {
+          nmea_sentence_message_.sentence = buffer_;
+          nmea_sentence_publisher_.publish(&nmea_sentence_message_);
+        }
         buffer_next_index_ = 0;
       }
       // If the buffer overflows, send the message to enable debugging.
       else if(buffer_next_index_ >= sizeof(buffer_) - 1) {
         buffer_[buffer_next_index_] = '\0';
-        nmea_sentence_message_.sentence = buffer_;
-        nmea_sentence_publisher_.publish(&nmea_sentence_message_);
+        if(enable_forwarding_) {
+          nmea_sentence_message_.sentence = buffer_;
+          nmea_sentence_publisher_.publish(&nmea_sentence_message_);
+        }
         buffer_next_index_ = 0;
       }
+    }
+  }
+
+
+  template<typename SerialDevice>
+  void RosserialNmeaSentenceForwarder<SerialDevice>::enableCallback (const std_msgs::Bool & message) {
+    if(message.data == true) {
+      enable();
+    }
+    else {
+      disable();
     }
   }
 

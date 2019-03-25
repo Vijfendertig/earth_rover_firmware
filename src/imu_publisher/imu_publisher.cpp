@@ -18,10 +18,10 @@ namespace earth_rover_firmware {
 
   ImuPublisher::ImuPublisher(const std::string & frame_id):
     frame_id_{frame_id},
-    subscriber_compact_imu_{node_handle_.subscribe("/bno055/imu", 16, &ImuPublisher::compactImuCallback, this)},
-    subscriber_calibration_status_{node_handle_.subscribe("/bno055/calib_status", 16, 
+    subscriber_compact_imu_{node_handle_.subscribe("bno055/imu", 16, &ImuPublisher::compactImuCallback, this)},
+    subscriber_calibration_status_{node_handle_.subscribe("bno055/calib_status", 16, 
                                                           &ImuPublisher::calibrationStatusCallback, this)},
-    publisher_full_imu_{node_handle_.advertise<sensor_msgs::Imu>("/imu", 16)}
+    publisher_full_imu_{node_handle_.advertise<sensor_msgs::Imu>("imu", 16)}
   {
     // Reset cached calibration status.
     cached_calibration_status_.system = 0;
@@ -30,6 +30,7 @@ namespace earth_rover_firmware {
     cached_calibration_status_.magnetometer = 0;
     cached_calibration_status_.last_saved = ros::Time();
   }
+
 
   void ImuPublisher::compactImuCallback(const Bno055Measurements::ConstPtr & compact_message) {
     sensor_msgs::Imu full_message;

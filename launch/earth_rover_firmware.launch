@@ -1,0 +1,27 @@
+<launch>
+
+  <arg name="teensy_port" default="/dev/ttyACM0" />
+  <arg name="teensy_baud" default="1000000" />
+
+  <!-- Communication with the Teensy device. -->
+  <node pkg="rosserial_python" type="serial_node.py" name="imu_serial_node"
+        args="_port:=$(arg teensy_port) _baud:=$(arg teensy_baud)"
+        respawn="true" respawn_delay="3" required="false" output="log" />
+  <!-- Enable GPS. -->
+  <node pkg="rostopic" type="rostopic" name="gps_enable_node"
+        args="pub mtk3339/enable std_msgs/Bool 'data: true'"
+        respawn="true" respawn_delay="3" required="false" output="log" />
+  <!-- Republish GPS measurements as -->
+  <node pkg="nmea_navsat_driver" type="nmea_topic_driver" name="gps_publisher_node"
+        respawn="true" respawn_delay="3" required="false" output="log">
+    <remap from="nmea_sentence" to="/mtk3339/nmea_sentence" />
+  </node>
+  <!-- Enable IMU. -->
+  <node pkg="rostopic" type="rostopic" name="imu_enable_node"
+        args="pub bno055/enable std_msgs/Bool 'data: true'"
+        respawn="true" respawn_delay="3" required="false" output="log" />
+  <!-- Republish IMU measurements as sensor_msgs/Imu messages. -->
+  <node pkg="earth_rover_firmware" type="imu_publisher_node" name="imu_publisher_node"
+        respawn="true" respawn_delay="3" required="false" output="log" />
+
+</launch>

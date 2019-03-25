@@ -6,6 +6,7 @@
 
 #include "adafruit_bno055.hpp"
 
+#include <ros.h>
 #include <std_msgs/Bool.h>
 #include <earth_rover_firmware/Bno055Measurements.h>
 #include <earth_rover_firmware/Bno055CalibrationStatus.h>
@@ -65,7 +66,7 @@ namespace earth_rover_firmware {
       uint16_t calibration_slots_address, uint8_t calibration_slots_count):
     node_handle_{node_handle},
     sensor_{i2c_device, i2c_bno055_address},
-    enable_subscriber_{"/bno055/enable", &RosserialAdafruitBNO055::enableCallback, this},
+    enable_subscriber_{"bno055/enable", &RosserialAdafruitBNO055::enableCallback, this},
     measurements_publisher_{"bno055/imu", &measurements_message_},
     calibration_status_publisher_{"bno055/calib_status", &calibration_status_message_},
     enable_{false},
@@ -77,7 +78,7 @@ namespace earth_rover_firmware {
     calibration_slots_count_{calibration_slots_count},
     current_calibration_slot_{uint8_t(calibration_slots_count_ - 1)}
   {
-    measurements_message_.header.frame_id = "bno055";
+    measurements_message_.header.frame_id = "bno055_link";
     measurements_message_.header.seq = 0;
     calibration_status_message_.last_saved = ros::Time();
   }
@@ -92,7 +93,7 @@ namespace earth_rover_firmware {
       node_handle_->subscribe(enable_subscriber_);
     }
     else {
-      pinMode(LED_BUILTIN, OUTPUT)
+      pinMode(LED_BUILTIN, OUTPUT);
       while(true) {
         digitalWrite(LED_BUILTIN, HIGH);
         delay(1000);
