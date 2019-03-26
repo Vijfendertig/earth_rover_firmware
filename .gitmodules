@@ -1,0 +1,3 @@
+[submodule "ros_teensy"]
+	path = ros_teensy
+	url = ../ros_teensy.git
