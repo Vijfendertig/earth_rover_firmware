@@ -15,14 +15,18 @@
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>message_generation</build_depend>
   <exec_depend>message_runtime</exec_depend>
-
+  <depend>earth_rover_firmware_msgs</depend>
   <depend>geometry_msgs</depend>
+  <depend>nmea_msgs</depend>
   <depend>roscpp</depend>
   <depend>rosserial_arduino</depend>
   <depend>rosserial_client</depend>
   <depend>ros_teensy</depend>
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
+  <exec_depend>nmea_navsat_driver</exec_depend>
+  <exec_depend>rosserial_python</exec_depend>
+  <exec_depend>rostopic</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

@@ -46,12 +46,19 @@ This package also provides a `imu_publisher_node` node which translates the comp
 
 ## Building
 
-Include the package in a ROS workspace. Both building (messages, firmware...) and uploading the firmware is done using catkin_make.
+Include the packages in a ROS workspace. Both building (messages, firmware...) and uploading the firmware is done using `catkin build` (or `catkin_make`).
 
-Due to some internal details of rosserial_arduino's make_libraries.py script, building the package isn't as straightforward as I would like it to be. The problem is that to create our custom messages in the Arduino/Teensy ros_lib library, rosserial_arduino's make_libraries.py script needs to source the workspace's setup script, which isn't available until the build is finished. See [https://github.com/ros-drivers/rosserial/issues/239] for more details. 
-The most elegant workaround I found is to exclude the firmware from the default catkin_make (or CMake) target and build it manually afterwards.
+To build the package using `catkin build`, run:
 
-So, to build the package including the firmware for the Teensy 3.2, run:
+- `export arduino_location="/opt/arduino-1.8.8"`
+- `. /opt/ros/melodic/setup.bash` (or the version for your favourite shell)
+- `rm -rf build devel logs`
+- `catkin build`
+
+Due to some internal details of rosserial_arduino's make_libraries.py script, building the package with `catkin_make` isn't as straightforward as I would like it to be. The problem is that to create our custom messages in the Arduino/Teensy ros_lib library, rosserial_arduino's make_libraries.py script needs to source the workspace's setup script, which isn't available until the build is finished. See [https://github.com/ros-drivers/rosserial/issues/239] for more details. 
+The most elegant workaround I found is to exclude the firmware from the default `catkin_make` target (remove the `ALL` from the `rosserial_add_client_target` command) and build it manually afterwards.
+
+So, to build the package including the firmware for the Teensy 3.2 using `catkin_make`, run:
 
 - `export arduino_location="/opt/arduino-1.8.8"`
 - `. /opt/ros/melodic/setup.bash` (or the version for your favourite shell)

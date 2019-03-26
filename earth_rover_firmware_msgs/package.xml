@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package format="2">
+
+  <name>earth_rover_firmware_msgs</name>
+  <version>0.0.0</version>
+  <description>Messages for the Teensy 3.2 firmware for the Earth Rover</description>
+
+  <license>MIT</license>
+
+  <maintainer email="maarten@vijfendertig.be">Maarten De Munck</maintainer>
+  <author email="maarten@vijfendertig.be">Maarten De Munck</author>
+
+  <url type="repository">https://github.com/Vijfendertig/earth_rover_firmware</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+  <exec_depend>nmea_navsat_driver</exec_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+
+</package>

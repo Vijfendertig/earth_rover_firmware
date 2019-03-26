@@ -8,11 +8,14 @@
 
 #include <ros.h>
 #include <std_msgs/Bool.h>
-#include <earth_rover_firmware/Bno055Measurements.h>
-#include <earth_rover_firmware/Bno055CalibrationStatus.h>
+#include <earth_rover_firmware_msgs/Bno055Measurements.h>
+#include <earth_rover_firmware_msgs/Bno055CalibrationStatus.h>
 
 
 namespace earth_rover_firmware {
+
+  using namespace earth_rover_firmware_msgs;
+  
 
   template<typename I2CDevice>
   class RosserialAdafruitBNO055 {

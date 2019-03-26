@@ -18,3 +18,4 @@ import_arduino_library(i2c_t3)  # Use Teensy 3.x I2C library.
 add_teensy_executable(earth_rover_firmware_teensy32 main.cpp)
 target_link_libraries(earth_rover_firmware_teensy32 ros_lib)
 
+set(IGNORE_ME "${EXECUTABLE_OUTPUT_PATH}")  # Prevent CMake warning.

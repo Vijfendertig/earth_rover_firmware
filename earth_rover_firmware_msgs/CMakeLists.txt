@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(earth_rover_firmware)
+project(earth_rover_firmware_msgs)
 
 ## Compile as C++14.
 set(CMAKE_CXX_STANDARD 14)
@@ -12,16 +12,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(catkin REQUIRED COMPONENTS
   message_generation
   geometry_msgs
-  roscpp
-  rosserial_arduino
-  rosserial_client
-  ros_teensy
-  sensor_msgs
   std_msgs
 )
 
 ## System dependencies are found with CMake's conventions
-find_package(Boost REQUIRED COMPONENTS program_options)
+# find_package(Boost REQUIRED COMPONENTS program_options)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -76,7 +71,6 @@ add_message_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES geometry_msgs
-               sensor_msgs
                std_msgs
 )
 
@@ -113,11 +107,6 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES earth_rover_firmware
   CATKIN_DEPENDS geometry_msgs
-                 roscpp
-                 rosserial_arduino
-                 rosserial_client
-                 ros_teensy
-                 sensor_msgs
                  std_msgs
 #  DEPENDS system_lib
 )
@@ -128,24 +117,11 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
-  ${Boost_INCLUDE_DIRS}
-)
-
-add_executable(imu_publisher_node
-  src/imu_publisher/imu_publisher_node.cpp
-  src/imu_publisher/imu_publisher.cpp)
-
-target_link_libraries(imu_publisher_node
-  ${catkin_LIBRARIES}
-  ${Boost_LIBRARIES}
-)
-
-add_dependencies(imu_publisher_node
-  earth_rover_firmware_gencpp
-)
+# include_directories(
+#   include
+#   ${catkin_INCLUDE_DIRS}
+#   ${Boost_INCLUDE_DIRS}
+# )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -176,22 +152,6 @@ add_dependencies(imu_publisher_node
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-
-##############
-## Firmware ##
-##############
-
-rosserial_generate_ros_lib(
-  PACKAGE rosserial_arduino
-  SCRIPT make_libraries.py
-)
-
-rosserial_configure_client(
-  DIRECTORY firmware_teensy32
-  TOOLCHAIN_FILE ${ROS_TEENSY_TOOLCHAIN}
-)
-
-rosserial_add_client_target(firmware_teensy32 earth_rover_firmware_teensy32_Firmware)
 
 #############
 ## Install ##

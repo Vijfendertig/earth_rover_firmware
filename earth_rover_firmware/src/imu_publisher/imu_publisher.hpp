@@ -15,8 +15,8 @@
 
 
 #include <ros/ros.h>
-#include <earth_rover_firmware/Bno055CalibrationStatus.h>
-#include <earth_rover_firmware/Bno055Measurements.h>
+#include <earth_rover_firmware_msgs/Bno055CalibrationStatus.h>
+#include <earth_rover_firmware_msgs/Bno055Measurements.h>
 
 
 namespace earth_rover_firmware {
@@ -28,12 +28,12 @@ namespace earth_rover_firmware {
       ros::Subscriber subscriber_calibration_status_;
       ros::Publisher publisher_full_imu_;
       std::string frame_id_;
-      Bno055CalibrationStatus cached_calibration_status_;
+      earth_rover_firmware_msgs::Bno055CalibrationStatus cached_calibration_status_;
     public:
       ImuPublisher(const std::string & frame_id);
       ~ImuPublisher() = default;
-      void compactImuCallback(const Bno055Measurements::ConstPtr & message);
-      void calibrationStatusCallback(const Bno055CalibrationStatus::ConstPtr & message);
+      void compactImuCallback(const earth_rover_firmware_msgs::Bno055Measurements::ConstPtr & message);
+      void calibrationStatusCallback(const earth_rover_firmware_msgs::Bno055CalibrationStatus::ConstPtr & message);
   };
 
 }

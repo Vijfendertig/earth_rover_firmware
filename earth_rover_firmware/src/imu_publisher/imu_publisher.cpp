@@ -16,6 +16,9 @@
 
 namespace earth_rover_firmware {
 
+  using namespace earth_rover_firmware_msgs;
+  
+
   ImuPublisher::ImuPublisher(const std::string & frame_id):
     frame_id_{frame_id},
     subscriber_compact_imu_{node_handle_.subscribe("bno055/imu", 16, &ImuPublisher::compactImuCallback, this)},
