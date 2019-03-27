@@ -2,6 +2,7 @@
 #include <ros.h>
 #include "rosserial_nmea_sentence_forwarder.hpp"
 #include "rosserial_adafruit_bno055.hpp"
+#include "rosserial_servo_controller.hpp"
 
 
 ros::NodeHandle node_handle;
@@ -11,7 +12,11 @@ earth_rover_firmware::RosserialAdafruitBNO055<i2c_t3>
                     20ul, 1000ul,
                     0u, 8u);
 earth_rover_firmware::RosserialNmeaSentenceForwarder<HardwareSerial>
-    nmea_sentence_forwarder(&node_handle, &Serial1, 9600, 0, 1);
+    nmea_sentence_forwarder(&node_handle,
+                            &Serial1, 9600, 0, 1);
+earth_rover_firmware::RosserialServoController<20, 21, 22, 23>
+    servo_controller(&node_handle,
+                     512u);
 
 
 void setup() {
@@ -23,6 +28,7 @@ void setup() {
   node_handle.initNode();
   adafruit_bno055.setup();
   nmea_sentence_forwarder.setup();
+  servo_controller.setup();
   digitalWrite(LED_BUILTIN, LOW);
 }
 

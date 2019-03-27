@@ -14,8 +14,12 @@ add_library(ros_lib ${ros_src})
 
 import_arduino_library(EEPROM)  # Use Arduino EEPROM library.
 import_arduino_library(i2c_t3)  # Use Teensy 3.x I2C library.
+import_arduino_library(Servo)  # Use Arduino Servo library.
 
-add_teensy_executable(earth_rover_firmware_teensy32 main.cpp)
+add_teensy_executable(earth_rover_firmware_teensy32
+  main.cpp
+  configured_servo.cpp
+)
 target_link_libraries(earth_rover_firmware_teensy32 ros_lib)
 
 set(IGNORE_ME "${EXECUTABLE_OUTPUT_PATH}")  # Prevent CMake warning.

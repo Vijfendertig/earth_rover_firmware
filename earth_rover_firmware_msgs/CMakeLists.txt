@@ -52,6 +52,10 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES Bno055CalibrationStatus.msg
         Bno055Measurements.msg
+        ConfigureServo.msg
+        ControlServo.msg
+        ControlServoRaw.msg
+        ServoConfiguration.msg
 )
 
 ## Generate services in the 'srv' folder

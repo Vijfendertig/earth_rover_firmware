@@ -1,6 +1,6 @@
 # Teensy 3.2 firmware for the Earth Rover
 
-This package provides Teensy 3.2 firmware to control the Earth Rover via USB using the rosserial protocol. It currently provides a GPS module based on a MTK3339 sensor and an IMU module based on a BNO055 sensor.
+This package provides Teensy 3.2 firmware to control the Earth Rover via USB using the rosserial protocol. It currently provides a GPS module based on a MTK3339 sensor, an IMU module based on a BNO055 sensor and a servo module.
 
 
 ## Modules
@@ -20,7 +20,7 @@ The standard `nmea_navsat_driver` package provides a `nmea_topic_driver` node wh
 
 ### IMU Module
 
-The IMU functionality is provided by an [Adafruit 9-DOF Absolute Orientation IMU Fusion Breakout ](https://www.adafruit.com/product/2472) based on a Bosch BNO055 IMU sensor. The Teensy and the BNO055 breakout board communicate via I2C, so you'll have to connect the 3.3V, GND, SDA and SCL of the breakout board to your Teensy. By default, the first I2C interface's SDA and SCL lines are on pins 18 and 19. Configure the Wire (or i2c_t3) interface before initializing the sensor.
+The IMU functionality is provided by an [Adafruit 9-DOF Absolute Orientation IMU Fusion Breakout ](https://www.adafruit.com/product/2472) based on a Bosch BNO055 IMU sensor. The Teensy and the BNO055 breakout board communicate via I2C, so you'll have to connect the 3.3V, GND, SDA and SCL of the breakout board to your Teensy. Configure the Wire (or i2c_t3) interface before initializing the sensor. The current firmware uses the first I2C interface's SDA and SCL lines on pins 18 and 19. 
 
 The rosserial IMU module provides two publishers:
 
@@ -32,6 +32,17 @@ Both publishers can be enabled or disabled by sending a `true` or `false` bool m
 When the IMU is disabled while it is fully calibrated, the calibration offsets are stored in the Arduino's EEPROM memory. If stored offsets are available, they are restored after a reset.
 
 This package also provides a `imu_publisher_node` node which translates the compact `Bno055Measurements` and `Bno055CalibrationStatus` messages to standard `sensor_msgs/Imu` ROS messages.
+
+
+### Servo module
+
+The rosserial servo module provides three subscribers:
+
+- `/servo/control` to set the servo's position relative to the configured pulse width limits (-1000 = minimum, 0 = center and +1000 = maximum).
+- `/servo/control_raw` to set the absolute pulse widths (in µs) sent to the servo (for most servos, 1000µs = minimum and 2000µs = maximum).
+- `/servo/configure` to configure the servo's initial, minimum, center and maximum pulse width.
+
+The pin numbers are given as template parameters. The current firmware uses pins 20, 21, 22 and 23.
 
 
 ## Dependencies
