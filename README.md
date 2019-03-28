@@ -38,8 +38,8 @@ This package also provides a `imu_publisher_node` node which translates the comp
 
 The rosserial servo module provides three subscribers:
 
-- `/servo/control` to set the servo's position relative to the configured pulse width limits (-1000 = minimum, 0 = center and +1000 = maximum).
-- `/servo/control_raw` to set the absolute pulse widths (in µs) sent to the servo (for most servos, 1000µs = minimum and 2000µs = maximum).
+- `/servo/control` to set the servo's position relative (-1000 = minimum, 0 = center and +1000 = maximum) to the configured pulse width limits.
+- `/servo/control_raw` to send absolute pulse widths (in µs) to the servo (for most servos, 1000µs = minimum and 2000µs = maximum).
 - `/servo/configure` to configure the servo's initial, minimum, center and maximum pulse width.
 
 The pin numbers are given as template parameters. The current firmware uses pins 20, 21, 22 and 23.

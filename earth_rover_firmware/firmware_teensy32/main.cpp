@@ -16,11 +16,12 @@ earth_rover_firmware::RosserialNmeaSentenceForwarder<HardwareSerial>
                             &Serial1, 9600, 0, 1);
 earth_rover_firmware::RosserialServoController<20, 21, 22, 23>
     servo_controller(&node_handle,
-                     512u);
+                     adafruit_bno055.getEepromBaseAddress() + adafruit_bno055.getEepromUsed());
 
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
+  // Start initialisation.
   digitalWrite(LED_BUILTIN, HIGH);
   // Initialise I2C bus.
   Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_EXT, 400000, I2C_OP_MODE_ISR);
@@ -34,8 +35,9 @@ void setup() {
 
 
 void loop() {
-  // nmea_sentence_forwarder.spinOnce();  // Handled in serialEvent1().
   adafruit_bno055.spinOnce();
+  // nmea_sentence_forwarder.spinOnce();  // Handled in serialEvent1().
+  servo_controller.spinOnce();
   node_handle.spinOnce();
 }
 

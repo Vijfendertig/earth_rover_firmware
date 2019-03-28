@@ -48,6 +48,8 @@ namespace earth_rover_firmware {
           unsigned long int measurements_publish_interval, unsigned long int calibration_status_publish_interval,
           uint16_t calibration_slots_address = 0u, uint8_t calibration_slots_count = 8u);
       ~RosserialAdafruitBNO055() = default;
+      uint16_t getEepromBaseAddress() const { return calibration_slots_address_; };
+      uint16_t getEepromUsed() const { return uint16_t(calibration_slots_count_ * sizeof(StoredCalibrationData)); };
       void setup();
       void enable();
       void disable();

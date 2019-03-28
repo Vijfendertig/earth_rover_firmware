@@ -35,7 +35,10 @@ namespace earth_rover_firmware {
     public:  // Member functions.
       RosserialServoController(ros::NodeHandle * node_handle, uint16_t configuration_base_address = 0u);
       ~RosserialServoController() = default;
+      uint16_t getEepromBaseAddress() const { return configuration_base_address_; };
+      uint16_t getEepromUsed() const { return uint16_t(sizeof...(pin_numbers) * sizeof(StoredConfiguration)); };
       void setup();
+      void spinOnce() { ; };
     private:  // Member functions.
       void controlCallback(const ControlServo & message);
       void controlRawCallback(const ControlServoRaw & message);

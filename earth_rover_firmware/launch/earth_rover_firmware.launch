@@ -4,7 +4,7 @@
   <arg name="teensy_baud" default="1000000" />
 
   <!-- Communication with the Teensy device. -->
-  <node pkg="rosserial_python" type="serial_node.py" name="imu_serial_node"
+  <node pkg="rosserial_python" type="serial_node.py" name="earth_rover_firmware_rosserial_node"
         args="_port:=$(arg teensy_port) _baud:=$(arg teensy_baud)"
         respawn="true" respawn_delay="3" required="false" output="log" />
   <!-- Enable GPS. -->
