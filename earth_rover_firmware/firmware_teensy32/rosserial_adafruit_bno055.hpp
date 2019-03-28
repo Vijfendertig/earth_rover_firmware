@@ -236,7 +236,8 @@ namespace earth_rover_firmware {
     }
     if(preferred_calibration_slot != -1) {
       current_calibration_slot_ = preferred_calibration_slot;
-      EEPROM.get(calibration_slots_address_ + preferred_calibration_slot * sizeof(StoredCalibrationData), stored_calibration);
+      EEPROM.get(calibration_slots_address_ + preferred_calibration_slot * sizeof(StoredCalibrationData),
+                 stored_calibration);
       sensor_.setCalibrationValues(stored_calibration.data);
       calibration_status_message_.last_saved = stored_calibration.timestamp;
     }

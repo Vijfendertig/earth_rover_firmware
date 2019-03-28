@@ -52,10 +52,12 @@ namespace earth_rover_firmware {
       pulse_width_current_ = pulse_width_maximum_;
     }
     else if(position < 0) {
-      pulse_width_current_ = pulse_width_center_ + int16_t(pulse_width_center_ - pulse_width_minimum_) * position / 1000;
+      pulse_width_current_ = pulse_width_center_
+                             + int16_t(pulse_width_center_ - pulse_width_minimum_) * position / 1000;
     }
     else {  // position > 0)
-      pulse_width_current_ = pulse_width_center_ + int16_t(pulse_width_maximum_ - pulse_width_center_) * position / 1000;
+      pulse_width_current_ = pulse_width_center_
+                             + int16_t(pulse_width_maximum_ - pulse_width_center_) * position / 1000;
     }
     servo_.writeMicroseconds(pulse_width_current_);
   }
