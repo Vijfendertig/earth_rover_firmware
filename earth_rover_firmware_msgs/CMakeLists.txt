@@ -52,6 +52,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES Bno055CalibrationStatus.msg
         Bno055Measurements.msg
+        EncoderMeasurements.msg
         ConfigureServo.msg
         ControlServo.msg
         ControlServoRaw.msg

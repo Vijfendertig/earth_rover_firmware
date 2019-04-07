@@ -1,6 +1,6 @@
 # Teensy 3.2 firmware for the Earth Rover
 
-This package provides Teensy 3.2 firmware to control the Earth Rover via USB using the rosserial protocol. It currently provides a GPS module based on a MTK3339 sensor, an IMU module based on a BNO055 sensor and a servo module.
+This package provides Teensy 3.2 firmware to control the Earth Rover via USB using the rosserial protocol. It currently provides a GPS module based on a MTK3339 sensor, a position encoder module based on two TLE4905L unipolar magnetic field switches and one or more magnets on the the drive shaft and an IMU module based on a BNO055 sensor and a servo module.
 
 
 ## Modules
@@ -16,6 +16,17 @@ The rosserial GPS module provides one publisher:
 This publisher can be enabled or disabled by sending a `true` or `false` bool message to `/mtk3339/enable`. It is disabled by default.
 
 The standard `nmea_navsat_driver` package provides a `nmea_topic_driver` node which translates the NMEA sentences to standard `sensor_msgs/NavSatFix`, `geometry_msgs/TwistStamped` and `sensor_msgs/TimeReference` ROS messages.
+
+
+### Position Encoder Module
+
+The position encoder module is provided by two [TLE4905L unipolar magnetic field switches](https://www.infineon.com/cms/en/product/sensor/magnetic-position-sensor/hall-switch/tle4905l/) and one or more magnets on the drive shaft. The TLE4905L requires a supply voltage of at least 3.8V, so it couldn't be powered by the Teensy's 3.3V supply. The input pin numbers are given as template parameters. The current firmware uses pins 5 and 6.
+
+The rosserial position encoder module provides one publisher:
+
+- `/encoder/position` with a 16 bit (overflowing) pulse counter.
+
+This publisher can be enabled or disabled by sending a `true` or `false` bool message to `/encoder/enable`. It is disabled by default.
 
 
 ### IMU Module
@@ -47,12 +58,12 @@ The pin numbers are given as template parameters. The current firmware uses pins
 
 ## Dependencies
 
-- [Arduino IDE](https://www.arduino.cc/en/Main/Software). I use version 1.8.8. Other versions might work too, but the one included in Ubuntu 18.04 LTS doesn't.
-- [Teensyduino](https://www.pjrc.com/teensy/td_download.html). I use version 1.45.
-- [Teensy Loader](https://www.pjrc.com/teensy/loader_cli.html).
 - [ROS](http://www.ros.org/). I use Melodic Morenia on Ubuntu 18.04 LTS, but other versions might work too.
 - [rosserial_arduino](http://wiki.ros.org/rosserial_arduino).
 - [ros_teensy](https://github.com/mcgill-robotics/ros-teensy).
+- [Arduino IDE](https://www.arduino.cc/en/Main/Software). I use version 1.8.8. Other versions might work too, but the one included in Ubuntu 18.04 LTS doesn't.
+- [Teensyduino](https://www.pjrc.com/teensy/td_download.html). I use version 1.45.
+- [Teensy Loader](https://www.pjrc.com/teensy/loader_cli.html).
 
 
 ## Building

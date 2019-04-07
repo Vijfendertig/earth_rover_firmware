@@ -1,5 +1,5 @@
-#ifndef __ROS_SERVO_CONTROLLER__
-#define __ROS_SERVO_CONTROLLER__
+#ifndef __ROSSERIAL_SERVO_CONTROLLER__
+#define __ROSSERIAL_SERVO_CONTROLLER__
 
 
 #include <EEPROM.h>

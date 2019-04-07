@@ -16,6 +16,10 @@
         respawn="true" respawn_delay="3" required="false" output="log">
     <remap from="nmea_sentence" to="/mtk3339/nmea_sentence" />
   </node>
+  <!-- Enable position and velocity encoder -->
+  <node pkg="rostopic" type="rostopic" name="encoder_enable_node"
+        args="pub encoder/enable std_msgs/Bool 'data: true'"
+        respawn="true" respawn_delay="3" required="false" output="log" />
   <!-- Enable IMU. -->
   <node pkg="rostopic" type="rostopic" name="imu_enable_node"
         args="pub bno055/enable std_msgs/Bool 'data: true'"
